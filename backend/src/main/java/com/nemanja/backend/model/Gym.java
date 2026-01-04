@@ -9,6 +9,9 @@ public class Gym {
     @Id
     @GeneratedValue
     private Long id;
+    private String name;
+    private String location;
+    private String image;
 
     public String getImage() {
         return image;
@@ -42,8 +45,6 @@ public class Gym {
         this.id = id;
     }
 
-    private String name;
-    private String location;
-    private String image;
+
 
 }
