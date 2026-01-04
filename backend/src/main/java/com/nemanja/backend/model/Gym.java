@@ -1,8 +1,8 @@
 package com.nemanja.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Gym {
@@ -12,6 +12,14 @@ public class Gym {
     private String name;
     private String location;
     private String image;
+
+    @ManyToMany
+    @JoinTable(
+            name = "gym_review",
+            joinColumns = @JoinColumn(name = "gym_id"),
+            inverseJoinColumns = @JoinColumn(name = "review_id")
+    )
+    private List<Review> reviews;
 
     public String getImage() {
         return image;

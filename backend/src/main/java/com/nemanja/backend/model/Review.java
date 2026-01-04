@@ -1,19 +1,23 @@
 package com.nemanja.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Review {
     @Id
     @GeneratedValue
     private Long id;
-    private Long gymId;
-    private Long userId;
     private Date dateTime;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToMany(mappedBy = "reviews")
+    private List<Gym> gyms;
 
     public Date getDateTime() {
         return dateTime;
@@ -23,21 +27,7 @@ public class Review {
         this.dateTime = dateTime;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Long getGymId() {
-        return gymId;
-    }
-
-    public void setGymId(Long gymId) {
-        this.gymId = gymId;
-    }
 
     public Long getId() {
         return id;
