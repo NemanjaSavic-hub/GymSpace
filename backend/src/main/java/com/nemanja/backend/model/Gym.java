@@ -2,7 +2,9 @@ package com.nemanja.backend.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Gym {
@@ -19,7 +21,7 @@ public class Gym {
             joinColumns = @JoinColumn(name = "gym_id"),
             inverseJoinColumns = @JoinColumn(name = "review_id")
     )
-    private List<Review> reviews;
+    private Set<Review> reviews = new HashSet<>();
 
     public String getImage() {
         return image;
@@ -53,6 +55,9 @@ public class Gym {
         this.id = id;
     }
 
+    public Set<Review> getReviews() {
+        return reviews;
+    }
 
 
 }
