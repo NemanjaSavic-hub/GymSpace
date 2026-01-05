@@ -11,6 +11,7 @@ public class Review {
     @GeneratedValue
     private Long id;
     private Date dateTime;
+    private String text;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -50,6 +51,14 @@ public class Review {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
 }
