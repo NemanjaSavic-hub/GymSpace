@@ -2,6 +2,7 @@ package com.nemanja.backend.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,13 +16,8 @@ public class Gym {
     private String location;
     private String image;
 
-    @ManyToMany
-    @JoinTable(
-            name = "gym_review",
-            joinColumns = @JoinColumn(name = "gym_id"),
-            inverseJoinColumns = @JoinColumn(name = "review_id")
-    )
-    private Set<Review> reviews = new HashSet<>();
+    @OneToMany(mappedBy = "gym")
+    private List<Review> reviews = new ArrayList<>();
 
     public String getImage() {
         return image;
@@ -55,9 +51,11 @@ public class Gym {
         this.id = id;
     }
 
-    public Set<Review> getReviews() {
+    public List<Review> getReviews() {
         return reviews;
     }
+
+
 
 
 }

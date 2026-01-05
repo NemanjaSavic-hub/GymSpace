@@ -16,8 +16,9 @@ public class Review {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(mappedBy = "reviews")
-    private List<Gym> gyms;
+    @ManyToOne
+    @JoinColumn(name = "gym_id")
+    private Gym gym;
 
     public Date getDateTime() {
         return dateTime;
@@ -27,8 +28,6 @@ public class Review {
         this.dateTime = dateTime;
     }
 
-
-
     public Long getId() {
         return id;
     }
@@ -36,4 +35,21 @@ public class Review {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Gym getGym() {
+        return gym;
+    }
+
+    public void setGym(Gym gym) {
+        this.gym = gym;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }
