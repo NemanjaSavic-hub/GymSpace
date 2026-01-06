@@ -4,6 +4,8 @@ import com.nemanja.backend.model.Gym;
 import com.nemanja.backend.service.GymService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin("http://localhost:5173")
 @RestController
 public class GymController {
@@ -29,5 +31,8 @@ public class GymController {
         return this.gymService.getGymById(id);
     }
 
-
+    @GetMapping("/gym/search")
+    public List<Gym> getGymByNameOrLocation(@RequestParam(name = "searchText") String searchText){
+        return this.gymService.getGymsByNameOrLocation(searchText);
+    }
 }
