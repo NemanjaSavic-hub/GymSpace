@@ -13,7 +13,7 @@ public class ReviewController {
     private ReviewSevice reviewSevice;
 
     @PostMapping("/review/user/{userId}/gym/{gymId}")
-    public Review makeReview(@PathVariable Long userId, @PathVariable Long gymId, @RequestBody String text){
-        return this.reviewSevice.createReview(userId,gymId,text);
+    public Review makeReview(@PathVariable Long userId, @PathVariable Long gymId, @RequestBody String text, @RequestBody Float rate){
+        return this.reviewSevice.createReview(userId,gymId,text,rate);
     }
 }

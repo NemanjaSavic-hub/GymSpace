@@ -15,6 +15,7 @@ public class Review {
     private Long id;
     private String dateTime;
     private String text;
+    private Float rate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -65,6 +66,14 @@ public class Review {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Float getRate() {
+        return rate;
+    }
+
+    public void setRate(Float rate) {
+        this.rate = rate;
     }
 
 }

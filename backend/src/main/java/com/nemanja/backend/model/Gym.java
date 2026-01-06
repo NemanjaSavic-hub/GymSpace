@@ -15,6 +15,7 @@ public class Gym {
     private String name;
     private String location;
     private String image;
+    private Float averageRate = 0f;
 
     @OneToMany(mappedBy = "gym")
     private List<Review> reviews = new ArrayList<>();
@@ -55,6 +56,15 @@ public class Gym {
         return reviews;
     }
 
+    public Float getAverageRate() {
+        return averageRate;
+    }
+
+    public void setAverageRate() {
+        var sumOfRatings = this.getReviews().stream().mapToDouble(Review::getRate).sum();
+        var numberOfRatings = this.getReviews().size();
+        this.averageRate = (float) sumOfRatings / numberOfRatings;
+    }
 
 
 
