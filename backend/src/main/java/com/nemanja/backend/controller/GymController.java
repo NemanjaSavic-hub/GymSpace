@@ -14,7 +14,7 @@ public class GymController {
         this.gymService = gymService;
     }
 
-    @GetMapping("gym")
+    @GetMapping("/gym")
     Iterable<Gym> getAllGyms() {
         return this.gymService.getAllGyms();
     }
@@ -22,6 +22,11 @@ public class GymController {
     @PostMapping("/gym")
     Gym createGym(@RequestBody Gym newGym){
         return this.gymService.createGym(newGym);
+    }
+
+    @GetMapping("/gym/{id}")
+    Gym getGymById(@PathVariable Long id){
+        return this.gymService.getGymById(id);
     }
 
 

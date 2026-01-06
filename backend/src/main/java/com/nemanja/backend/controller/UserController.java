@@ -3,6 +3,7 @@ package com.nemanja.backend.controller;
 import com.nemanja.backend.exception.UserNotFoundException;
 import com.nemanja.backend.model.User;
 import com.nemanja.backend.repository.UserRepository;
+import com.nemanja.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/user")
     User createUser(@RequestBody User newUser){
@@ -26,8 +30,9 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     User getUserById(@PathVariable Long id){
-        return userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+//        return userRepository.findById(id)
+//                .orElseThrow(() -> new UserNotFoundException(id));
+        return this.userService.getUserById(id);
     }
 
     @PutMapping("user/{id}")
