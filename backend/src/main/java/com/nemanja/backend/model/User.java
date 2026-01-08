@@ -16,6 +16,7 @@ public class User {
     private String firstname;
     private String lastname;
     private String email;
+    private String password;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
@@ -61,5 +62,11 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

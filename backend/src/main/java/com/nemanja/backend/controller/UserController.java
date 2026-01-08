@@ -23,6 +23,11 @@ public class UserController {
         return userRepository.save(newUser);
     }
 
+    @GetMapping("/")
+    String hello(){
+        return "Hello";
+    }
+
     @GetMapping("/users")
     Iterable<User> getAllUsers(){
         return userRepository.findAll();
