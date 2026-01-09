@@ -3,13 +3,17 @@ package com.nemanja.backend.service;
 import com.nemanja.backend.exception.UserNotFoundException;
 import com.nemanja.backend.model.User;
 import com.nemanja.backend.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -24,6 +28,24 @@ public class UserService {
         }
         throw new UserNotFoundException(id);
     }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        User user = this.userRepository.findUserByUsername(username);
+
+        if(user == null){
+            System.out.println("User not found");
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .build();
+
+    }
+
+
 
 //    public String getHash(String originalString){
 //        // Create an encoder with strength 16
@@ -34,15 +56,17 @@ public class UserService {
 //                originalString.getBytes(StandardCharsets.UTF_8));
 //    }
 
-    private static String bytesToHex(byte[] hash) {
-        StringBuilder hexString = new StringBuilder(2 * hash.length);
-        for(int i = 0; i < hash.length; i++) {
-            String hex = Integer.toHexString(0xff & hash[i]);
-            if(hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
-        }
-        return hexString.toString();
-    }
+//    private static String bytesToHex(byte[] hash) {
+//        StringBuilder hexString = new StringBuilder(2 * hash.length);
+//        for(int i = 0; i < hash.length; i++) {
+//            String hex = Integer.toHexString(0xff & hash[i]);
+//            if(hex.length() == 1) {
+//                hexString.append('0');
+//            }
+//            hexString.append(hex);
+//        }
+//        return hexString.toString();
+//    }
+
+
 }
