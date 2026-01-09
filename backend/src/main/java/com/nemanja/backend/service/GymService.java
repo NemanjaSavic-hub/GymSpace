@@ -2,6 +2,7 @@ package com.nemanja.backend.service;
 
 import com.nemanja.backend.exception.GymNotFoundException;
 import com.nemanja.backend.model.Gym;
+import com.nemanja.backend.model.Review;
 import com.nemanja.backend.repository.GymRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -38,6 +39,12 @@ public class GymService {
             return gym.get();
         }
         throw new GymNotFoundException(id);
+    }
+
+    public Gym addReviewAndChangeAvgRate(Gym gym, Review review){
+        gym.addReview(review);
+        gym.setAverageRate();
+        return this.gymRepository.save(gym);
     }
 
     public List<Gym> getGymsByNameOrLocation(String searchText){

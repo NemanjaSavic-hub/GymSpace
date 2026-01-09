@@ -13,8 +13,11 @@ public class Review {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(nullable=false)
     private String dateTime;
+    @Column(nullable=false)
     private String text;
+    @Column(nullable=false)
     private Float rate;
 
     @ManyToOne
@@ -22,7 +25,7 @@ public class Review {
     private User user;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne//(cascade = CascadeType.ALL)
     @JoinColumn(name = "gym_id")
     private Gym gym;
 

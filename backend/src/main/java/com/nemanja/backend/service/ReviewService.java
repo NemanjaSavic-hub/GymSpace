@@ -7,10 +7,8 @@ import com.nemanja.backend.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-
 @Service
-public class ReviewSevice {
+public class ReviewService {
 
     @Autowired
     private UserService userService;
@@ -20,7 +18,7 @@ public class ReviewSevice {
 
     private final ReviewRepository reviewRepository;
 
-    public ReviewSevice(ReviewRepository reviewRepository) {
+    public ReviewService(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
 
@@ -33,6 +31,8 @@ public class ReviewSevice {
         newReview.setText(text);
         newReview.setDateTime();
         newReview.setRate(rate);
+        gym = gymService.addReviewAndChangeAvgRate(gym,newReview);
+        newReview.setGym(gym);
         return reviewRepository.save(newReview);
     }
 }

@@ -12,9 +12,13 @@ public class Gym {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(nullable=false, unique = true)
     private String name;
+    @Column(nullable=false)
     private String location;
+    @Column(nullable=false, unique = true)
     private String image;
+    @Column(nullable=false)
     private Float averageRate = 0f;
 
     @OneToMany(mappedBy = "gym")
@@ -65,6 +69,8 @@ public class Gym {
         var numberOfRatings = this.getReviews().size();
         this.averageRate = (float) sumOfRatings / numberOfRatings;
     }
+
+    public void addReview(Review review){ this.reviews.add(review);}
 
 
 
