@@ -1,6 +1,7 @@
 package com.nemanja.backend.service;
 
 import com.nemanja.backend.model.Training;
+import com.nemanja.backend.model.TrainingType;
 import com.nemanja.backend.repository.ExerciseRepository;
 import com.nemanja.backend.repository.TrainingRepository;
 import com.nemanja.backend.repository.VolumeRepository;
@@ -32,6 +33,14 @@ public class TrainingService {
         }
 
         return trainingRepository.save(training);
+    }
+
+    public List<Training> getListOfTrainingsWithType(TrainingType trainingType){
+        return this.trainingRepository.getAllByTrainingType(trainingType);
+    }
+
+    public List<Training> getTrainingsByDescriptionContains(String description){
+        return this.trainingRepository.getTrainingsByDescriptionContains(description);
     }
 
 //    public Training createTraining(Training training){
