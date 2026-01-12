@@ -2,6 +2,7 @@ package com.nemanja.backend.service;
 
 import com.nemanja.backend.model.PersonalTraining;
 import com.nemanja.backend.model.Training;
+import com.nemanja.backend.model.TrainingType;
 import com.nemanja.backend.model.User;
 import com.nemanja.backend.repository.PersonalTrainingRepository;
 import com.nemanja.backend.repository.TrainingRepository;
@@ -24,6 +25,14 @@ public class PersonalTrainingService {
     public List<PersonalTraining> getPersonalTrainingByUser(Long userId){
         return this.personalTrainingRepository.getPersonalTrainingsByUser_Id(userId);
     }
+
+    public List<PersonalTraining> getPersonalTrainingOfUserByTrainingType(Long userId, TrainingType type){
+        return this.personalTrainingRepository.getPersonalTrainingsByUser_IdAndTraining_TrainingType(userId, type);
+    }
+//
+//    public List<PersonalTraining> getPersonalTrainingOfUserByDescription(Long userId, String description){
+//        return this.personalTrainingRepository.getPersonalTrainingsByUser_IdAndTraining_Description(userId, description);
+//    }
 
     public PersonalTraining createPersonalTraining(Long userId, Long trainingId){
         User user = userRepository.findById(userId).orElseThrow();
