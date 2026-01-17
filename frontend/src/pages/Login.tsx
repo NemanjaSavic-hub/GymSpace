@@ -1,4 +1,6 @@
 import { useForm, type FieldValues } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+// import { redirect } from "react-router";
 
 interface LoginFormData{
   email: string,
@@ -7,8 +9,9 @@ interface LoginFormData{
 
 const Login = () => {
       
- const { register, handleSubmit, formState: { errors, dirtyFields }, } = useForm<LoginFormData>();
-  const onSubmit = (data : FieldValues) => console.log(data);
+  const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>();
+  const navigate = useNavigate();
+  const onSubmit = (data : FieldValues) => navigate("/register");
 
   return (
     <>
