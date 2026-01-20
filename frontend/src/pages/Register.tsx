@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm, type FieldValues } from "react-hook-form"
 
 interface RegisterFormData{
@@ -10,6 +11,7 @@ interface RegisterFormData{
 
 function Register() {
   const { register, handleSubmit, formState: {errors}} = useForm<RegisterFormData>();
+  const [showPassword, setShowPassword] = useState(false);
   const onSubmit = (data : FieldValues) => console.log(data);
   return (
     <>
@@ -37,8 +39,13 @@ function Register() {
           {errors.email?.type === "pattern" && <p className="text-xs text-error">Enter valid email address</p>}
 
           <label className="label">Password</label>
-          <input type="password" placeholder="Password" {...register("password", {required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d).{5,}$/})} className="input" />
+          <div className="join w-full">
+          <input type={showPassword ? "text" : "password"} placeholder="Password" {...register("password", {required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d).{5,}$/})} className="input" />
           {errors.password && <p className="text-xs text-error">Password is required <br></br>Needs to have at least 1 character and 1 number <br></br>Needs to be at least 5 length</p>}
+          <button type="button" className="btn join-item" onClick={() => setShowPassword(prev => !prev)}>
+          {showPassword ? "Hide" : "Show"}
+        </button>
+          </div>
 
           <button className="btn btn-neutral mt-4">Register</button>
           </fieldset>

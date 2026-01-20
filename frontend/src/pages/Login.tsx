@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useForm, type FieldValues } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import { redirect } from "react-router";
 
 interface LoginFormData{
@@ -12,6 +13,7 @@ const Login = () => {
   const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>();
   const navigate = useNavigate();
   const onSubmit = (data : FieldValues) => navigate("/register");
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <>
@@ -29,9 +31,13 @@ const Login = () => {
                 </fieldset>
                 <fieldset className="fieldset text-xl">
                     <legend className="fieldset-legend">Enter your password:</legend>
-                    <input type="password" placeholder="Password" {...register("password", {required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d).{5,}$/})} className='password' />
+                     <div className="join w-full">
+                    <input type={showPassword ? "text" : "password"} placeholder="Password" {...register("password", {required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d).{5,}$/})} className="input" />
                     {errors.password && <p className="text-xs text-error">Password is required <br></br>Needs to have at least 1 character and 1 number <br></br>Needs to be at least 5 length</p>}
-                    <p>{errors.password?.message}</p>
+                    <button type="button" className="btn join-item" onClick={() => setShowPassword(prev => !prev)}>
+                    {showPassword ? "Hide" : "Show"}
+                    </button>
+                    </div>
                 </fieldset>
         
               <div>
@@ -40,7 +46,7 @@ const Login = () => {
         
             </form>
         </div>
-        <p className="text-xs font-bold pt-2 text-slate-500 hover:text-blue-600 hover:cursor-pointer">You don't an account? Click here to registry</p>
+        <Link to="/register" className="text-xs font-bold pt-2 text-slate-500 hover:text-blue-600 hover:cursor-pointer">You don't an account? Click here to registry</Link>
         </div>
     </>
   )
