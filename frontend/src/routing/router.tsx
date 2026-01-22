@@ -9,8 +9,3 @@ const router = createBrowserRouter([
 
 export default router
 
-// const root = document.getElementById("root");
-
-// ReactDOM.createRoot(root!).render(
-//   <RouterProvider router={router} />,
-// );

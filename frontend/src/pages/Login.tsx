@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, type FieldValues } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import useUser from '../hooks/useUser';
 // import { redirect } from "react-router";
 
 interface LoginFormData{
@@ -9,11 +10,22 @@ interface LoginFormData{
 }
 
 const Login = () => {
-      
+
   const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>();
   const navigate = useNavigate();
-  const onSubmit = (data : FieldValues) => navigate("/register");
+  const onSubmit = (data : FieldValues) => setLoginDetails({email: data["email"], password: data["password"]});
   const [showPassword, setShowPassword] = useState(false);
+  const [loginDetails, setLoginDetails] = useState<LoginFormData>({email: "", password: ""})
+
+  const {data: user}= useUser()
+
+    useEffect(() => {
+    console.log(user);
+  }, [user])
+
+  // useEffect(() => {
+  //   console.log(loginDetails);
+  // }, [loginDetails])
 
   return (
     <>
@@ -25,7 +37,7 @@ const Login = () => {
             <form onSubmit={handleSubmit(onSubmit)} >
                 <fieldset className="fieldset text-xl">
                     <legend className="fieldset-legend ">Enter your email address:</legend>
-                    <input type="email" placeholder="Email" {...register("email", {required: true, pattern: /^\S+@\S+$/i})} className='email' />
+                    <input type="email" placeholder="Email" {...register("email", {required: true, pattern: /^\S+@\S+$/i})} className='input' />
                     {errors.email?.type === "required" && <p className="text-xs text-error">Email is required</p>}
                     {errors.email?.type === "pattern" && <p className="text-xs text-error">Enter valid email address</p>}
                 </fieldset>
