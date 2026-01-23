@@ -37,10 +37,19 @@ public class UserService implements UserDetailsService {
         return this.userRepository.save(newUser);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public User getUserByEmail(String email) throws UsernameNotFoundException{
+        var user = this.userRepository.findUserByEmail(email);
+        if(user == null){
+            throw new UsernameNotFoundException("User not found");
+        }
+        return user;
+    }
 
-        User user = this.userRepository.findUserByUsername(username);
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+//        User user = this.userRepository.findUserByUsername(username);
+        User user = this.userRepository.findUserByEmail(email);
 
         if(user == null){
             System.out.println("User not found");
@@ -48,7 +57,7 @@ public class UserService implements UserDetailsService {
         }
 
         return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
+                .username(user.getEmail())
                 .password(user.getPassword())
                 .build();
 

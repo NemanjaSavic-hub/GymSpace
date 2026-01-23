@@ -28,6 +28,11 @@ public class UserController {
         return "Hello";
     }
 
+    @GetMapping("/login/{email}")
+    User loginUser(@PathVariable String email){
+        return this.userService.getUserByEmail(email);
+    }
+
     @GetMapping("/users")
     Iterable<User> getAllUsers(){
         return userRepository.findAll();
