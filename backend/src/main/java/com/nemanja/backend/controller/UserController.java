@@ -29,8 +29,13 @@ public class UserController {
     }
 
     @GetMapping("/login/{email}")
-    User loginUser(@PathVariable String email){
+    User loginUserEmail(@PathVariable String email){
         return this.userService.getUserByEmail(email);
+    }
+
+    @GetMapping("/login/email/{email}/password/{password}")
+    User loginUser(@PathVariable String email, @PathVariable String password){
+        return this.userService.getUserByEmailAndPassword(email,password);
     }
 
     @GetMapping("/users")

@@ -45,6 +45,20 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public User getUserByEmailAndPassword(String email, String password) throws UsernameNotFoundException{
+        var user = this.userRepository.findUserByEmail(email);
+        if(user == null){
+            throw new UsernameNotFoundException("User not found");
+        }
+        var pass = user.getPassword();
+        var bool = bCryptPasswordEncoder.matches(password, user.getPassword());
+        if(!bCryptPasswordEncoder.matches(password, user.getPassword())){
+            throw new UsernameNotFoundException("Password not matching");
+        }
+
+        return user;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
