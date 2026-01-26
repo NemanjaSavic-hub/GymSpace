@@ -1,5 +1,6 @@
 package com.nemanja.backend.controller;
 
+import com.nemanja.backend.dto.LoginRequestDTO;
 import com.nemanja.backend.exception.UserNotFoundException;
 import com.nemanja.backend.model.User;
 import com.nemanja.backend.repository.UserRepository;
@@ -33,9 +34,9 @@ public class UserController {
         return this.userService.getUserByEmail(email);
     }
 
-    @GetMapping("/login/email/{email}/password/{password}")
-    User loginUser(@PathVariable String email, @PathVariable String password){
-        return this.userService.getUserByEmailAndPassword(email,password);
+    @PostMapping("/login")
+    User loginUser(@RequestBody LoginRequestDTO requestDTO){
+        return this.userService.getUserByEmailAndPassword(requestDTO.getEmail(), requestDTO.getPassword());
     }
 
     @GetMapping("/users")
