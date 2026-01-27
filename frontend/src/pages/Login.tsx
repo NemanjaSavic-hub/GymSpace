@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm, type FieldValues } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import useUser from '../hooks/useUser';
+import { useLogin } from '../hooks/useLogin';
 // import { redirect } from "react-router";
 
 interface LoginFormData{
@@ -13,19 +13,24 @@ const Login = () => {
 
   const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>();
   const navigate = useNavigate();
-  const onSubmit = (data : FieldValues) => setLoginDetails({email: data["email"], password: data["password"]});
+  const onSubmit = (data : FieldValues) => {
+    // e.preventDefault();
+    login(
+      {email: data["email"], password: data["password"]},
+      {
+        onSuccess() {
+          // localStorage.setItem("user", data)
+          navigate("/home");
+        },
+        onError() {
+
+        }
+      }
+    )
+  }
   const [showPassword, setShowPassword] = useState(false);
-  const [loginDetails, setLoginDetails] = useState<LoginFormData>({email: "", password: ""})
-
-  const {data: user}= useUser()
-
-    useEffect(() => {
-    console.log(user);
-  }, [user])
-
-  // useEffect(() => {
-  //   console.log(loginDetails);
-  // }, [loginDetails])
+  const { mutate: login, isLoading, isError} = useLogin()
+  // const {error, isLoading}= useUser(loginDetails.email, loginDetails.password, () => navigate("/home"))
 
   return (
     <>
@@ -45,21 +50,23 @@ const Login = () => {
                     <legend className="fieldset-legend">Enter your password:</legend>
                      <div className="join w-full">
                     <input type={showPassword ? "text" : "password"} placeholder="Password" {...register("password", {required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d).{5,}$/})} className="input" />
-                    {errors.password && <p className="text-xs text-error">Password is required <br></br>Needs to have at least 1 character and 1 number <br></br>Needs to be at least 5 length</p>}
                     <button type="button" className="btn join-item" onClick={() => setShowPassword(prev => !prev)}>
                     {showPassword ? "Hide" : "Show"}
                     </button>
                     </div>
+                    {errors.password && <p className="text-xs text-error">Password is required <br></br>Needs to have at least 1 character and 1 number <br></br>Needs to be at least 5 length</p>}
                 </fieldset>
         
-              <div>
-                <button className="btn btn-primary mt-2" type="submit">Log in</button>
-              </div>
+              
+                <button className="btn btn-primary mt-2" disabled={isLoading} type="submit">{isLoading ? "Loging in...": "Log in"}</button>
+                {isError && <p className="text-xs text-error mt-1">Login failed</p>}
         
             </form>
         </div>
         <Link to="/register" className="text-xs font-bold pt-2 text-slate-500 hover:text-blue-600 hover:cursor-pointer">You don't an account? Click here to registry</Link>
         </div>
+        {/* {isError && <p className="text-xs text-error">Login failed</p>} */}
+        
     </>
   )
 }
