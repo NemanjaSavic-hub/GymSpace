@@ -6,6 +6,8 @@ import com.nemanja.backend.model.User;
 import com.nemanja.backend.repository.UserRepository;
 import com.nemanja.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,8 +37,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    User loginUser(@RequestBody LoginRequestDTO requestDTO){
-        return this.userService.getUserByEmailAndPassword(requestDTO.getEmail(), requestDTO.getPassword());
+    ResponseEntity<User> loginUser(@RequestBody LoginRequestDTO requestDTO){
+        var user = this.userService.getUserByEmailAndPassword(requestDTO.getEmail(), requestDTO.getPassword());
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/users")
