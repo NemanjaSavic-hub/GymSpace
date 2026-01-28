@@ -1,14 +1,7 @@
 import axios from "axios"
 import { useQuery } from "react-query"
+import type { User } from "../models/User";
 
-
-export interface User{
-  firstname: string,
-  lastname: string,
-  username: string,
-  email: string,
-  password: string
-}
 
 const useUser = (email: string, password: string, onSuccess: () => void) => {
     console.log(`pozvan useuser sa ${email} i ${password}`)

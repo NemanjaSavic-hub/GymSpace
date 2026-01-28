@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useForm, type FieldValues } from "react-hook-form"
+import { useRegister } from "../hooks/useRegister";
+import { useNavigate } from "react-router-dom";
 
 interface RegisterFormData{
   firstname: string,
@@ -12,7 +14,24 @@ interface RegisterFormData{
 function Register() {
   const { register, handleSubmit, formState: {errors}} = useForm<RegisterFormData>();
   const [showPassword, setShowPassword] = useState(false);
-  const onSubmit = (data : FieldValues) => console.log(data);
+  const navigate = useNavigate();
+  const {mutate: registry, isLoading, isError } = useRegister();
+  const onSubmit = (data : FieldValues) => {
+    registry(
+      {
+        firstname: data["firstname"],
+        lastname: data["lastname"],
+        username: data["username"],
+        email: data["email"],
+        password: data["password"]
+      },
+      {
+        onSuccess() {
+          navigate("/")
+        },
+      }
+    )
+  };
   return (
     <>
       <div className="flex flex-col justify-center items-center h-full bg-blue-200">
@@ -41,13 +60,15 @@ function Register() {
           <label className="label">Password</label>
           <div className="join w-full">
           <input type={showPassword ? "text" : "password"} placeholder="Password" {...register("password", {required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d).{5,}$/})} className="input" />
-          {errors.password && <p className="text-xs text-error">Password is required <br></br>Needs to have at least 1 character and 1 number <br></br>Needs to be at least 5 length</p>}
           <button type="button" className="btn join-item" onClick={() => setShowPassword(prev => !prev)}>
           {showPassword ? "Hide" : "Show"}
-        </button>
+          </button>
           </div>
+          {errors.password && <p className="text-xs text-error">Password is required <br></br>Needs to have at least 1 character and 1 number <br></br>Needs to be at least 5 length</p>}
 
-          <button className="btn btn-neutral mt-4">Register</button>
+
+          <button className="btn btn-neutral mt-4">{isLoading ? "Sending request": "Register"}</button>
+          {isError && <p className="text-xs text-error mt-1">Registration failed</p>}
           </fieldset>
         </form>
       </div>

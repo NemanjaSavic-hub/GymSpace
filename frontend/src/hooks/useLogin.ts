@@ -1,6 +1,7 @@
 import axios from "axios";
-import type { User } from "./useUser";
 import { useMutation } from "react-query";
+import type { User } from "../models/User";
+import { DEV_BASE_URL } from "../constants/constants";
 
 type LoginRequest = {
   email: string;
@@ -8,7 +9,7 @@ type LoginRequest = {
 };
 
 const login = async (data: LoginRequest): Promise<User> => {
-  const res = await axios.post<User>(`http://localhost:8080/login`, data);
+  const res = await axios.post<User>(`${DEV_BASE_URL}/login`, data);
   return res.data;
 };
 
