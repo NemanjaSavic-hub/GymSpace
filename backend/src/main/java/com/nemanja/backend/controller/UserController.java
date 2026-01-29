@@ -22,8 +22,13 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    User createUser(@RequestBody User newUser){
-        return this.userService.createUser(newUser);
+    ResponseEntity<User> createUser(@RequestBody User newUser){
+
+        var user = this.userService.createUser(newUser);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/")
