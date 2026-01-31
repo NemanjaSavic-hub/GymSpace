@@ -1,5 +1,5 @@
 import type { Gym } from "../models/Gym"
-import HalfStarRating from "./HalfStarRating"
+import ReadOnlyRating from "./ReadOnlyRating"
 
 interface Props {
   gym: Gym
@@ -17,7 +17,8 @@ const GymReviewCard = ({gym}: Props) => {
         <h2 className="card-title">{gym.name} - {gym.location}</h2>
         <div className="flex ">
           <span className="text-4xl font-bold">{gym.averageRate}</span>
-          <HalfStarRating/>
+          <ReadOnlyRating value={gym.averageRate} />
+          {/* <HalfStarRating ariaCurrent={4}/> */}
         </div>
         {gym.reviews.map((review, index) => 
         <div key={index}>
