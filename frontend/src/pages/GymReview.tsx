@@ -82,8 +82,9 @@ const GymReview = () => {
 
   return (
     <>
-      <GymReviewCard gym={gym}/>
-      {/* <GymReviewCard/> */}
+      <div className="flex flex-col items-center">
+        <GymReviewCard gym={gym}/>
+      </div>
     </>
   )
 }
