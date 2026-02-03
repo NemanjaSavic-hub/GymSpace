@@ -32,7 +32,7 @@ const GymReviewCard = ({gym}: Props) => {
         </div>
          )} */}
         <div className="card-actions">
-          <button className="btn btn-primary">Buy Now</button>
+          <button className="btn btn-primary">Write review</button>
         </div>
       </div>
     </div>
