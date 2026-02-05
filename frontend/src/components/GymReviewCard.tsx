@@ -1,4 +1,5 @@
 import type { Gym } from "../models/Gym"
+import AddReview from "./AddReview"
 import ReadOnlyRating from "./ReadOnlyRating"
 import ReviewList from "./ReviewList"
 
@@ -22,18 +23,8 @@ const GymReviewCard = ({gym}: Props) => {
           <ReadOnlyRating value={gym.averageRate} />
         </div>
         <ReviewList reviewList={gym.reviews} />
-        {/* <ReviewItem id={0} dateTime={""} rate={0} text={""} user={{
-          id: 0,
-          username: ""
-        }} /> */}
-        {/* {gym.reviews.map((review, index) => 
-        <div key={index}>
-          <p>{review.text}</p>
-        </div>
-         )} */}
-        <div className="card-actions">
-          <button className="btn btn-primary">Write review</button>
-        </div>
+        <AddReview/>
+
       </div>
     </div>
   )
