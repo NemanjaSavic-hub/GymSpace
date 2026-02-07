@@ -1,11 +1,16 @@
 import { useRef, useState } from "react"
+import { data } from "react-router-dom"
+interface FinalData {
+    text: string, rating: number
+}
 
-// interface Props {
-//     username?: string
-// }
+interface Props {
+    username?: string,
+    onSubmitProp: (data: FinalData) => void
+}
 
 
-const AddReview = () => {
+const AddReview = ({username, onSubmitProp}: Props) => {
     const [radioValue, setRadioValue] = useState(0)
     const inputRef = useRef<HTMLTextAreaElement>(null)
     const [error, setError] = useState("")
@@ -21,6 +26,7 @@ const AddReview = () => {
                 setError("");
                 console.log(radioValue);
                 console.log(inputRef.current.value);
+                onSubmitProp({text: inputRef.current.value, rating: radioValue});
                 return;
             }
         }

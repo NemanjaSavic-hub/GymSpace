@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useForm, type FieldValues } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLogin } from '../hooks/useLogin';
+import UserContext from '../contexts.ts/UserContext';
 // import { redirect } from "react-router";
 
 interface LoginFormData{
@@ -13,13 +14,15 @@ const Login = () => {
 
   const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>();
   const navigate = useNavigate();
+  const {dispatch} = useContext(UserContext);
   const onSubmit = (data : FieldValues) => {
     // e.preventDefault();
     login(
       {email: data["email"], password: data["password"]},
       {
-        onSuccess() {
+        onSuccess(data) {
           // localStorage.setItem("user", data)
+          dispatch({type: "LOGIN", user: data})
           navigate("/home");
         },
         onError() {
@@ -29,7 +32,8 @@ const Login = () => {
     )
   }
   const [showPassword, setShowPassword] = useState(false);
-  const { mutate: login, isLoading, isError} = useLogin()
+  const { mutate: login, isLoading, isError} = useLogin();
+  
   // const {error, isLoading}= useUser(loginDetails.email, loginDetails.password, () => navigate("/home"))
 
   return (

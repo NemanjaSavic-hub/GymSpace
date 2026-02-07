@@ -23,7 +23,7 @@ const GymReviewCard = ({gym}: Props) => {
           <ReadOnlyRating value={gym.averageRate} />
         </div>
         <ReviewList reviewList={gym.reviews} />
-        <AddReview/>
+        <AddReview onSubmitProp={ (data) => console.log(data)}/>
 
       </div>
     </div>
