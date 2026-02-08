@@ -1,8 +1,8 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useForm, type FieldValues } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLogin } from '../hooks/useLogin';
-import UserContext from '../contexts.ts/UserContext';
+import useAuthContext from '../hooks/useAuthContext';
 // import { redirect } from "react-router";
 
 interface LoginFormData{
@@ -14,7 +14,7 @@ const Login = () => {
 
   const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>();
   const navigate = useNavigate();
-  const {dispatch} = useContext(UserContext);
+  const { dispatch } = useAuthContext();
   const onSubmit = (data : FieldValues) => {
     // e.preventDefault();
     login(
