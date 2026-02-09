@@ -1,5 +1,6 @@
 package com.nemanja.backend.service;
 
+import com.nemanja.backend.dto.GymReviewsResponseDTO;
 import com.nemanja.backend.exception.GymNotFoundException;
 import com.nemanja.backend.model.Gym;
 import com.nemanja.backend.model.Review;
@@ -11,6 +12,10 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,6 +36,11 @@ public class GymService {
 
     public Iterable<Gym> getAllGyms(){
         return this.gymRepository.findAll();
+    }
+
+    public Page<Gym> getAllGymsPaged(int page, int pageSize){
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return this.gymRepository.findAll(pageable);
     }
 
     public Gym getGymById(Long id){
