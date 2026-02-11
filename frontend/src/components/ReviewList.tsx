@@ -11,10 +11,12 @@ const ReviewList = ({reviewList, numberOfReviewsDefaultPreview = 2}: Props) => {
   if(reviewList.length < 1) return <p>No reviews</p>
   if(reviewList.length < numberOfReviewsDefaultPreview) {
     return (
-      <ul className="list bg-base-100 rounded-box shadow-md">
-      <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">Reviews</li>
-      {reviewList.map(review => <ReviewItem key={review.id} review={review} />)}
-      </ul>
+      <div className="w-full">
+        <ul className="list bg-base-100 rounded-box shadow-md">
+        <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">Reviews</li>
+        {reviewList.map(review => <ReviewItem key={review.id} review={review} />)}
+        </ul>
+      </div>
     )
   }
   const [previewReviews, setPreviewReviews] = useState(reviewList.slice(0, numberOfReviewsDefaultPreview));
