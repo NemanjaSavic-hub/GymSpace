@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import GymReviewCard from "../components/GymReviewCard"
 import { useGyms } from "../hooks/useGyms";
+import { useInView } from "react-intersection-observer";
 // const gym= {
 //   averageRate: 3.6,
 //   id: 1,
@@ -82,16 +83,24 @@ import { useGyms } from "../hooks/useGyms";
 // };
 const GymReview = () => {
   const pageSize = 20;
-  const { data, error, isLoading} = useGyms({pageSize})
+  const { data, error, isLoading, fetchNextPage, isFetchingNextPage} = useGyms({pageSize});
+  const { ref: isScrolledToBottomRef, inView: isIntersecting } = useInView();
+  useEffect(() => {
+    if(isIntersecting){
+      console.log("fetching")
+      fetchNextPage()
+    }
+  }, [isIntersecting])
   if(isLoading) return <p>...Loading</p>
   if(error) return <p>{error.message}</p>
   return (
     <>
       <div className="flex flex-col items-center">
-        {data?.pages.map(page => 
-        <React.Fragment>
-          {page.content.map( gym => <GymReviewCard gym={gym}/>)}
+        {data?.pages.map(gymResponse => 
+        <React.Fragment key={gymResponse.page.number}>
+          {gymResponse.content.map( gym => <GymReviewCard key={gym.id} gym={gym}/>)}
         </React.Fragment>)}
+        <p ref={isScrolledToBottomRef}>{isFetchingNextPage ? "Loading next page..." : ""}</p>
       </div>
     </>
   )

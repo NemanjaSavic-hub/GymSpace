@@ -23,7 +23,7 @@ export const useGyms = (query: GymQuery) => {
     queryKey: ['gyms', query],
     queryFn: ({pageParam}) => getGyms(pageParam, query.pageSize),
     staleTime: 2 * 60 * 1000, //2 min
-    keepPreviousData: true,
+    // keepPreviousData: true,
     getNextPageParam: (lastPage, _allPages) => {
         if(lastPage.page.number + 1 < lastPage.page.totalPages){
             return lastPage.page.number + 1;
