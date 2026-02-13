@@ -21,7 +21,8 @@ const Login = () => {
       {email: data["email"], password: data["password"]},
       {
         onSuccess(data) {
-          // localStorage.setItem("user", data)
+          // sessionStorage.setItem("userEmail", data["email"])
+          // localStorage.setItem("userPassword", data["email"])
           dispatch({type: "LOGIN", user: data})
           navigate("/home");
         },
