@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
 
@@ -70,31 +70,13 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-//        User user = this.userRepository.findUserByUsername(username);
-        User user = this.userRepository.findUserByEmail(email);
-
-        if(user == null){
-            System.out.println("User not found");
-            throw new UsernameNotFoundException("User not found");
-        }
-
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getEmail())
-                .password(user.getPassword())
-                .build();
-
-    }
-
     public String verify(String email, String rawPassword) {
         try{
             Authentication authentication =
                     authenticationManager.authenticate(
                             new UsernamePasswordAuthenticationToken(email, rawPassword));
             if(authentication.isAuthenticated())
-                return jwtService.generateToken();
+                return jwtService.generateToken(email);
         }
         catch (Exception e){
             return "Fail";
