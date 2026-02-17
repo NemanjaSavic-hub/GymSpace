@@ -4,6 +4,10 @@ import com.nemanja.backend.exception.UserNotFoundException;
 import com.nemanja.backend.model.User;
 import com.nemanja.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,10 +22,13 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
+    private final AuthenticationManager authenticationManager;
 
-    public UserService(UserRepository userRepository) {
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
+
+    public UserService(UserRepository userRepository, @Lazy AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
     }
 
     public User getUserById(Long id){
@@ -78,28 +85,19 @@ public class UserService implements UserDetailsService {
 
     }
 
-
-
-//    public String getHash(String originalString){
-//        // Create an encoder with strength 16
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
-//        String result = encoder.encode("myPassword");
-//        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-//        byte[] encodedhash = digest.digest(
-//                originalString.getBytes(StandardCharsets.UTF_8));
-//    }
-
-//    private static String bytesToHex(byte[] hash) {
-//        StringBuilder hexString = new StringBuilder(2 * hash.length);
-//        for(int i = 0; i < hash.length; i++) {
-//            String hex = Integer.toHexString(0xff & hash[i]);
-//            if(hex.length() == 1) {
-//                hexString.append('0');
-//            }
-//            hexString.append(hex);
-//        }
-//        return hexString.toString();
-//    }
+    public String verify(String email, String rawPassword) {
+        try{
+            Authentication authentication =
+                    authenticationManager.authenticate(
+                            new UsernamePasswordAuthenticationToken(email, rawPassword));
+            if(authentication.isAuthenticated())
+                return "Success";
+        }
+        catch (Exception e){
+            return "Fail";
+        }
+        return "Fail";
+    }
 
 
 }

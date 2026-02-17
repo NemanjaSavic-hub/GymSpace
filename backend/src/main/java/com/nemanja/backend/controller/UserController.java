@@ -50,6 +50,12 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PostMapping("/login2")
+    String loginUser2(@RequestBody LoginRequestDTO requestDTO){
+//        var user = this.userService.getUserByEmailAndPassword(requestDTO.getEmail(), requestDTO.getPassword());
+        return this.userService.verify(requestDTO.getEmail(), requestDTO.getPassword());
+    }
+
     @GetMapping("/users")
     Iterable<User> getAllUsers(){
         return userRepository.findAll();

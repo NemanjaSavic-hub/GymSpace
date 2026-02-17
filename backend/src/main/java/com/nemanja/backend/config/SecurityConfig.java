@@ -1,12 +1,15 @@
 package com.nemanja.backend.config;
 
+import com.nemanja.backend.service.MyUserDetailsService;
 import com.nemanja.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -23,8 +26,10 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
+//    @Autowired
+//    private UserService userService;
     @Autowired
-    private UserService userService;
+    private MyUserDetailsService myUserDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http){
@@ -32,7 +37,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(customizer -> customizer.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/login","/register").permitAll()
+                        .requestMatchers("/login", "/login2","/register").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .build();
@@ -54,9 +59,14 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(this.userService);
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(this.myUserDetailsService);
         provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
 //        provider.setUserDetailsService(userDetailsService); ne postoji vise
         return provider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config){
+        return config.getAuthenticationManager();
     }
 }
