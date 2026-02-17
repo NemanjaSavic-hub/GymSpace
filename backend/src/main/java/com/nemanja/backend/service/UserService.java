@@ -24,6 +24,9 @@ public class UserService implements UserDetailsService {
 
     private final AuthenticationManager authenticationManager;
 
+    @Autowired
+    private JWTService jwtService;
+
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
     public UserService(UserRepository userRepository, @Lazy AuthenticationManager authenticationManager) {
@@ -91,7 +94,7 @@ public class UserService implements UserDetailsService {
                     authenticationManager.authenticate(
                             new UsernamePasswordAuthenticationToken(email, rawPassword));
             if(authentication.isAuthenticated())
-                return "Success";
+                return jwtService.generateToken();
         }
         catch (Exception e){
             return "Fail";
