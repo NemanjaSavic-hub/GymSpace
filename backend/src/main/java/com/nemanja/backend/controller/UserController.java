@@ -1,6 +1,7 @@
 package com.nemanja.backend.controller;
 
 import com.nemanja.backend.dto.LoginRequestDTO;
+import com.nemanja.backend.dto.UserWithJWTTokenResponse;
 import com.nemanja.backend.exception.UserNotFoundException;
 import com.nemanja.backend.model.User;
 import com.nemanja.backend.repository.UserRepository;
@@ -41,8 +42,8 @@ public class UserController {
         return this.userService.getUserByEmail(email);
     }
 
-    @PostMapping("/login")
-    ResponseEntity<User> loginUser(@RequestBody LoginRequestDTO requestDTO){
+    @PostMapping("/login2")
+    ResponseEntity<User> loginUser2(@RequestBody LoginRequestDTO requestDTO){
         var user = this.userService.getUserByEmailAndPassword(requestDTO.getEmail(), requestDTO.getPassword());
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
@@ -50,10 +51,20 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/login2")
-    String loginUser2(@RequestBody LoginRequestDTO requestDTO){
-//        var user = this.userService.getUserByEmailAndPassword(requestDTO.getEmail(), requestDTO.getPassword());
-        return this.userService.verify(requestDTO.getEmail(), requestDTO.getPassword());
+    @PostMapping("/login")
+    ResponseEntity<UserWithJWTTokenResponse> loginUser(@RequestBody LoginRequestDTO requestDTO){
+        String token;
+        try{
+             token = this.userService.verify(requestDTO.getEmail(), requestDTO.getPassword());
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        var user = this.userService.getUserByEmailAndPassword(requestDTO.getEmail(), requestDTO.getPassword());
+        var userWithToken = new UserWithJWTTokenResponse();
+        userWithToken.setUser(user);
+        userWithToken.setToken(token);
+        return new ResponseEntity<>(userWithToken, HttpStatus.OK);
     }
 
     @GetMapping("/users")

@@ -71,17 +71,12 @@ public class UserService {
     }
 
     public String verify(String email, String rawPassword) {
-        try{
-            Authentication authentication =
-                    authenticationManager.authenticate(
-                            new UsernamePasswordAuthenticationToken(email, rawPassword));
-            if(authentication.isAuthenticated())
-                return jwtService.generateToken(email);
-        }
-        catch (Exception e){
-            return "Fail";
-        }
-        return "Fail";
+        Authentication authentication =
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(email, rawPassword));
+        if(authentication.isAuthenticated())
+            return jwtService.generateToken(email);
+        return null;
     }
 
 
