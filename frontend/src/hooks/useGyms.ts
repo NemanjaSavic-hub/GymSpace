@@ -9,9 +9,8 @@ interface GymQuery {
 
 const getGyms = async (page: number = 0, pageSize: number = 20): Promise<GymResponse> => {
   const res = await axios.get<GymResponse>(`${DEV_BASE_URL}/gyms`, {
-    auth: {
-        username: "savic.nemanja.biz@gmail.com",
-        password: "cone123"
+    headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("userToken")}`
     },
     params: {page, pageSize},
 },);
@@ -20,7 +19,7 @@ const getGyms = async (page: number = 0, pageSize: number = 20): Promise<GymResp
 
 export const useGyms = (query: GymQuery) => {
   return useInfiniteQuery<GymResponse, Error>({
-    queryKey: ['gyms', query],
+    queryKey: ['gyms'],
     queryFn: ({pageParam}) => getGyms(pageParam, query.pageSize),
     staleTime: 2 * 60 * 1000, //2 min
     // keepPreviousData: true,

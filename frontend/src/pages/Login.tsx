@@ -20,10 +20,10 @@ const Login = () => {
     login(
       {email: data["email"], password: data["password"]},
       {
-        onSuccess(data) {
-          // sessionStorage.setItem("userEmail", data["email"])
+        onSuccess(loginResponseData) {
+          sessionStorage.setItem("userToken", loginResponseData.token)
           // localStorage.setItem("userPassword", data["email"])
-          dispatch({type: "LOGIN", user: data})
+          dispatch({type: "LOGIN", user: loginResponseData.user })
           navigate("/home");
         },
         onError() {

@@ -13,9 +13,8 @@ type MakeReviewRequest = {
 const makeReview = async ({userId, gymId, text, rate}: MakeReviewRequest): Promise<Review> => {
   const res = await axios.post<Review>(`${DEV_BASE_URL}/review/user/${userId}/gym/${gymId}`, {text, rate},
     {
-        auth: {
-            username: "savic.nemanja.biz@gmail.com",
-            password: "cone123"
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("userToken")}`
         }
     }
 );
