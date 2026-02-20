@@ -3,6 +3,7 @@ import Login from "../pages/Login"
 import Register from "../pages/Register"
 import Home from "../pages/Home"
 import PrivateRoutes from "../components/PrivateRoutes"
+import Training from "../pages/Training"
 
 const router = createBrowserRouter([
     { path: "/", element: <Login />},
@@ -11,6 +12,7 @@ const router = createBrowserRouter([
         element: <PrivateRoutes />,
         children: [
             { path: "/home", element: <Home />},
+            { path: "/training", element: <Training />}
         ]
     }
 ])

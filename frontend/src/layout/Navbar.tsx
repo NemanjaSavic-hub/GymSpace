@@ -1,12 +1,13 @@
+import { Link } from "react-router-dom"
 
 const Navbar = () => {
     return (
         <div className="navbar bg-sky-300 shadow-sm">
             <div className="flex-1 ml-5">
-                <a className="btn btn-ghost text-xl text-white italic font-bold">Gym review</a>
+                <Link className="btn btn-ghost text-xl text-white italic font-bold" to="/home">Gym review</Link>
             </div>
             <div className="flex-1">
-                <a className="btn btn-ghost text-xl text-white italic font-bold">Training</a>
+                <Link className="btn btn-ghost text-xl text-white italic font-bold" to="/training">Training</Link>
             </div>
             <div className="flex gap-2 mr-5">
                 <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
