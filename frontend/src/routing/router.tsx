@@ -6,13 +6,14 @@ import PrivateRoutes from "../components/PrivateRoutes"
 import Training from "../pages/Training"
 
 const router = createBrowserRouter([
-    { path: "/", element: <Login />},
+    { path: "/", element: <Training />},
+    // { path: "/", element: <Login />},
     { path: "/register", element: <Register />},
     { 
         element: <PrivateRoutes />,
         children: [
             { path: "/home", element: <Home />},
-            { path: "/training", element: <Training />}
+            // { path: "/training", element: <Training />}
         ]
     }
 ])

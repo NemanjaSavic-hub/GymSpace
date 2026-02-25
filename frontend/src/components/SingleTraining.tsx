@@ -8,7 +8,12 @@ interface Props {
 const SingleTraining = ({training}: Props) => {
   return (
     <>
-    <ExercisesCarousel exerciseList={training.exerciseList} />
+    <div className="flex flex-col justify-center items-center">
+      <h3>{training.description}</h3>
+      <div className="flex flex-col w-1/2">
+        <ExercisesCarousel exerciseList={training.exerciseList} />
+      </div>
+    </div>
     </>
   )
 }
