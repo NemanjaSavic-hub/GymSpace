@@ -177,18 +177,20 @@ const getColor = (trainingType: string) => {
       return ""
   }
 }
-
+const getSummary = (training: Training) => {
+  return training.description.substring(0, 60) + "..."
+} 
 const Training = () => {
   return (
     <>
     <Navbar></Navbar>
-    <Collapse summary="This is some begginer training" bgColor={getColor(training.trainingType)}>
+    <Collapse summary={getSummary(training)} bgColor={getColor(training.trainingType)}>
       <SingleTraining training={training} />
     </Collapse>
-    <Collapse summary="This is some advanced training" bgColor={getColor(training2.trainingType)}>
+    <Collapse summary={getSummary(training2)} bgColor={getColor(training2.trainingType)}>
       <SingleTraining training={training2} />
     </Collapse>
-    <Collapse summary="This is some elite training" bgColor={getColor(training3.trainingType)}>
+    <Collapse summary={getSummary(training3)} bgColor={getColor(training3.trainingType)}>
       <SingleTraining training={training3} />
     </Collapse>
     </>
