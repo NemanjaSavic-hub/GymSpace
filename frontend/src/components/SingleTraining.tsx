@@ -13,7 +13,7 @@ const SingleTraining = ({training}: Props) => {
     <div className="flex items-center justify-around">
       <div>
         {training.exerciseList.map((exercise, index) => <li key={exercise.id} className=" flex list-row">
-          <div className="text-4xl font-thin opacity-30 tabular-nums">{index + 1}</div>
+          <div className="text-4xl font-thin opacity-30 tabular-nums mr-2">{index + 1}</div>
           <div className="list-col-grow">
             <div>{exercise.name}</div>
             <div className="text-xs uppercase font-semibold opacity-60">Sets: {training.volumeList[index].sets}</div>
@@ -23,7 +23,7 @@ const SingleTraining = ({training}: Props) => {
       
         </li>)}
       </div>
-        <div className="flex flex-col w-1/2">
+        <div className="w-1/2 h-auto">
           <ExercisesCarousel exerciseList={training.exerciseList} />
         </div>
      </div>
