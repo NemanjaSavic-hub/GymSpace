@@ -4,6 +4,9 @@ import com.nemanja.backend.model.Training;
 import com.nemanja.backend.model.TrainingType;
 import com.nemanja.backend.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("http://localhost:5173")
@@ -21,6 +24,16 @@ public class TrainingController {
     @GetMapping("training")
     public Iterable<Training> getAll(){
         return this.trainingService.getAll();
+    }
+
+    @GetMapping("/search")
+    public PagedModel<Training> searchTrainings(
+            @RequestParam String query,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "pageSize", defaultValue = "20") int pageSize
+    ) {
+        var trainings = trainingService.searchTrainings(query, page, pageSize);
+        return new PagedModel<>(trainings);
     }
 
     @GetMapping("training/type/{trainingType}")

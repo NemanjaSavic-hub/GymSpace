@@ -1,5 +1,5 @@
 import type { Training } from "../models/Training"
-import ExercisesCarousel from "./ExercisesCorousel";
+import ExercisesCarousel from "./ExercisesCarousel";
 
 interface Props {
     training: Training;
